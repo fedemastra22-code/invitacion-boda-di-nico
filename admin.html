@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard — Di & Nico</title>
+<meta name="theme-color" content="#2b1420">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body class="admin-dash font-sans antialiased overflow-y-auto">
+
+  <div id="loader" class="fixed inset-0 z-50 bg-dash flex justify-center items-center">
+    <p class="font-display italic text-2xl tracking-widest text-dash-pink">Verificando acceso...</p>
+  </div>
+
+  <div id="dashboard" class="hidden relative min-h-screen px-6 py-12 max-w-6xl mx-auto">
+    <header class="flex flex-wrap justify-between items-end gap-4 mb-10 border-b border-dash-line pb-6">
+      <div class="flex items-center gap-4">
+        <div>
+          <p class="text-[10px] tracking-[0.4em] text-dash-pink mb-2 uppercase">Panel de control</p>
+          <h1 class="font-display text-5xl font-light">Invitados</h1>
+        </div>
+        <a href="/" title="Volver a la invitación" class="icon-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+        </a>
+      </div>
+      <div class="flex items-center gap-3">
+        <!-- Sin padrón ni importación de listas (se sacó a propósito: la
+             única fuente de la lista de invitados ahora son las
+             confirmaciones que van llegando por el link público) — sólo
+             queda exportar a Excel. -->
+        <button id="exportXlsxBtn" type="button" title="Exportar todo a Excel (resumen, invitados, mensajes)" class="icon-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="m9 13 3 4 3-4"/><path d="M12 17v-6"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div id="pdfContent">
+      <!-- ============ KPIs (clickeables = filtro) ============ -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
+        <div class="dash-card">
+          <div class="flex items-start justify-between">
+            <p class="dash-card-label">TOTAL INVITADOS</p>
+            <button id="kpiEdit" type="button" title="Editar total" class="icon-btn !h-6 !w-6 -mt-1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </button>
+          </div>
+          <button data-kpi="" type="button" id="kpiTotal" class="kpi-value text-4xl md:text-5xl text-dash-cream">300</button>
+          <p class="dash-card-sub">Click para ver todos</p>
+        </div>
+        <button data-kpi="asisten" type="button" class="dash-card kpi-filterable text-left">
+          <p class="dash-card-label">CONFIRMADOS</p>
+          <p class="kpi-value text-4xl md:text-5xl text-dash-pink" id="kpiAsisten">0</p>
+          <p class="dash-card-sub">Personas que asisten</p>
+        </button>
+        <button data-kpi="no_asisten" type="button" class="dash-card kpi-filterable text-left">
+          <p class="dash-card-label">NO ASISTEN</p>
+          <p class="kpi-value text-4xl md:text-5xl text-dash-cream/70" id="kpiNoAsisten">0</p>
+          <p class="dash-card-sub">Personas que declinaron</p>
+        </button>
+        <button data-kpi="restricciones" type="button" class="dash-card kpi-filterable text-left">
+          <p class="dash-card-label">RESTRICCIONES</p>
+          <p class="kpi-value text-4xl md:text-5xl text-dash-cream/70" id="kpiRestricciones">0</p>
+          <p class="dash-card-sub">Con comida especial</p>
+        </button>
+      </div>
+
+      <!-- ============ Navegador de widgets ============ -->
+      <div class="flex items-center gap-2 mb-6" id="widgetNav">
+        <button type="button" data-widget="confirmados" class="widget-nav-btn is-active">Lista de invitados</button>
+        <button type="button" data-widget="ranking" class="widget-nav-btn">Ranking</button>
+        <button type="button" data-widget="muro" class="widget-nav-btn">Muro</button>
+      </div>
+
+      <!-- ============ Lista de invitados confirmados ============
+           Única fuente de la lista: se arma sola a medida que la gente
+           confirma por el link público — no hay padrón ni importación de
+           planillas. -->
+      <div id="widgetConfirmados" class="widget-panel">
+        <div class="dash-card !p-0 overflow-visible mb-8">
+          <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-5 border-b border-dash-line relative z-40">
+            <h2 class="font-display text-2xl">Lista de invitados confirmados</h2>
+            <div class="flex items-center gap-2">
+              <button id="toggleSortConf" type="button" title="Ordenar" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7 15 5 5 5-5M7 9l5-5 5 5"/></svg>
+              </button>
+              <button id="toggleColumnsConf" type="button" title="Mostrar/ocultar columnas" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16M15 4v16"/></svg>
+              </button>
+              <button id="toggleGroupConf" type="button" title="Agrupar" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              </button>
+              <button id="toggleFiltersConf" type="button" title="Filtro" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M6 12h12M10 19h4"/></svg>
+              </button>
+              <!-- Ojo de posibles duplicados: cerrado con trazos normales si
+                   no hay ninguno detectado, se abre y se pone amarillo apenas
+                   la tabla detecta uno — dashboard.js decide el ícono y el
+                   color según los datos, no según si está clickeado. Click =
+                   filtra la tabla a sólo los posibles duplicados. -->
+              <button id="toggleDuplicados" type="button" title="Posibles duplicados" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12c3.2-2.8 6.4-4.2 9.5-4.2s6.3 1.4 9.5 4.2"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="activeFilterChip" class="hidden px-6 py-2 border-b border-dash-line text-[11px] tracking-wide text-dash-pink"></div>
+
+          <div class="overflow-x-auto rounded-b-3xl">
+            <table class="w-full text-left text-sm">
+              <thead class="text-[10px] tracking-[0.15em] text-dash-cream/45 uppercase border-b border-dash-line">
+                <tr id="confTableHead"></tr>
+              </thead>
+              <tbody id="confTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ Ranking de temas musicales ============ -->
+      <div id="widgetRanking" class="widget-panel hidden">
+        <div class="dash-card">
+          <p class="dash-card-label">RANKING · ¿QUÉ TEMA NO PUEDE FALTAR EN LA FIESTA?</p>
+          <p class="text-[11px] text-dash-cream/35 mb-4">Variantes del mismo tema agrupadas automáticamente</p>
+          <ol id="songRanking" class="grid gap-2 sm:grid-cols-2"></ol>
+        </div>
+      </div>
+
+      <!-- ============ Muro de mensajes ============ -->
+      <div id="widgetMuro" class="widget-panel hidden">
+        <div class="dash-card !p-0 overflow-visible mb-8">
+          <div class="flex flex-wrap items-center justify-between gap-3 px-6 py-5 border-b border-dash-line relative z-40">
+            <h2 class="font-display text-2xl">Muro de mensajes</h2>
+            <div class="flex items-center gap-2">
+              <button id="toggleMuroFilter" type="button" title="Filtro" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M6 12h12M10 19h4"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-b-3xl">
+            <table class="w-full text-left text-sm text-dash-cream/85">
+              <thead class="text-[10px] tracking-[0.15em] text-dash-cream/45 uppercase border-b border-dash-line">
+                <tr>
+                  <th class="py-3 px-4 font-normal">Acciones</th>
+                  <th class="py-3 px-4 font-normal">De parte de</th>
+                  <th class="py-3 px-4 font-normal">Tu mensaje</th>
+                  <th class="py-3 px-4 font-normal">Fecha</th>
+                </tr>
+              </thead>
+              <tbody id="muroTable"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ Popovers de la barra de herramientas ============
+       Viven acá afuera, sueltos al final del <body> — ver nota de
+       backdrop-filter/position:fixed en dashboard.js (registrarPopover). -->
+  <div id="popoverBackdrop" class="hidden fixed inset-0 z-[90] backdrop-blur-sm bg-black/25"></div>
+
+  <div id="sortPopoverConf" class="hidden filter-popover z-[100] fixed shadow-2xl">
+    <p class="dash-label mb-2">Ordenar por (click para agregar, click de nuevo para invertir)</p>
+    <ul id="sortListConf" class="grid gap-1.5 max-h-[50vh] overflow-y-auto pr-2"></ul>
+    <button id="clearSortConf" type="button" class="mt-4 w-full text-center text-xs tracking-widest text-dash-cream/50 hover:text-dash-pink transition">LIMPIAR ORDEN</button>
+    <div class="popover-actions">
+      <button type="button" data-popover-close class="popover-btn-secondary">CERRAR</button>
+      <button type="button" data-popover-apply class="popover-btn-primary">APLICAR</button>
+    </div>
+  </div>
+
+  <div id="columnsPopoverConf" class="hidden filter-popover z-[100] fixed shadow-2xl">
+    <p class="dash-label mb-2">Columnas visibles</p>
+    <ul id="columnsListConf" class="grid gap-1.5 max-h-[50vh] overflow-y-auto pr-2"></ul>
+    <div class="popover-actions">
+      <button type="button" data-popover-close class="popover-btn-secondary">CERRAR</button>
+      <button type="button" data-popover-apply class="popover-btn-primary">APLICAR</button>
+    </div>
+  </div>
+
+  <div id="groupPopoverConf" class="hidden filter-popover z-[100] fixed shadow-2xl">
+    <p class="dash-label mb-2">Agrupar por (click para agregar, en orden)</p>
+    <ul id="groupListConf" class="grid gap-1.5"></ul>
+    <button id="clearGroupConf" type="button" class="mt-4 w-full text-center text-xs tracking-widest text-dash-cream/50 hover:text-dash-pink transition">LIMPIAR AGRUPADO</button>
+    <div class="popover-actions">
+      <button type="button" data-popover-close class="popover-btn-secondary">CERRAR</button>
+      <button type="button" data-popover-apply class="popover-btn-primary">APLICAR</button>
+    </div>
+  </div>
+
+  <div id="filterPopoverConf" class="hidden filter-popover z-[100] fixed shadow-2xl">
+    <div class="relative">
+      <input id="filterNombreConf" type="text" placeholder="Buscar por nombre o apellido…" autocomplete="off" class="dash-input w-full">
+      <ul id="filterSuggestionsConf" class="hidden absolute z-20 mt-1 w-full max-h-48 overflow-y-auto rounded-xl border border-dash-line bg-[#1c0f18] shadow-2xl scrollbar-modern"></ul>
+    </div>
+    <select id="filterLadoConf" class="dash-input w-full mt-3">
+      <option value="">De parte de: todos</option>
+      <option value="nico">De parte de Nico</option>
+      <option value="diana">De parte de Diana</option>
+    </select>
+    <select id="filterCategoriaConf" class="dash-input w-full mt-3">
+      <option value="">Categoría: todas</option>
+    </select>
+    <label class="flex items-center gap-2 text-sm text-dash-cream/80 cursor-pointer mt-3 px-1">
+      <input type="checkbox" id="filterDuplicadosConf">
+      Solo posibles duplicados
+    </label>
+    <label class="flex items-center gap-2 text-sm text-dash-cream/80 cursor-pointer mt-2 px-1">
+      <input type="checkbox" id="filterArchivadosConf">
+      Mostrar archivados (en vez de activos)
+    </label>
+    <button id="clearFiltersConf" type="button" class="mt-4 w-full text-center text-xs tracking-widest text-dash-cream/50 hover:text-dash-pink transition">LIMPIAR FILTROS</button>
+    <div class="popover-actions">
+      <button type="button" data-popover-close class="popover-btn-secondary">CERRAR</button>
+      <button type="button" data-popover-apply class="popover-btn-primary">APLICAR</button>
+    </div>
+  </div>
+
+  <div id="categoriaPopover" class="hidden filter-popover z-[100] fixed shadow-2xl">
+    <p class="text-xs tracking-widest text-dash-cream/50 mb-3">ASIGNAR CATEGORÍA</p>
+    <div id="categoriaPopoverLista" class="flex flex-wrap gap-2"></div>
+    <input id="categoriaPopoverNueva" type="text" placeholder="…o escribí una categoría nueva" autocomplete="off" class="dash-input w-full mt-3">
+    <div class="popover-actions">
+      <button type="button" data-popover-close class="popover-btn-secondary">CERRAR</button>
+      <button type="button" id="categoriaPopoverGuardar" class="popover-btn-primary">GUARDAR</button>
+    </div>
+  </div>
+
+  <div id="muroFilterPopover" class="hidden filter-popover z-[100] fixed shadow-2xl">
+    <input id="filterMuro" type="text" placeholder="Buscar por nombre o mensaje…" autocomplete="off" class="dash-input w-full">
+    <button id="clearMuroFilter" type="button" class="mt-4 w-full text-center text-xs tracking-widest text-dash-cream/50 hover:text-dash-pink transition">LIMPIAR FILTRO</button>
+    <div class="popover-actions">
+      <button type="button" data-popover-close class="popover-btn-secondary">CERRAR</button>
+      <button type="button" data-popover-apply class="popover-btn-primary">APLICAR</button>
+    </div>
+  </div>
+
+  <!-- ============ Modal de edición de etiquetas ============ -->
+  <dialog id="editModal" class="m-auto w-[min(26rem,92vw)] bg-transparent p-0 backdrop:bg-black/60 backdrop:backdrop-blur-md">
+    <form id="editForm" class="dash-card !bg-[#1c0f18] rounded-3xl p-8 grid gap-5 text-dash-cream">
+      <h3 class="font-display text-2xl">Editar etiquetas</h3>
+      <p class="text-sm text-dash-cream/50 -mt-3" id="editingName"></p>
+
+      <div>
+        <label class="dash-label">De parte de</label>
+        <select id="editLado" class="dash-input w-full mt-1">
+          <option value="">— sin asignar —</option>
+          <option value="nico">Nico</option>
+          <option value="diana">Diana</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="dash-label">Categoría</label>
+        <select id="editCategoria" class="dash-input w-full mt-1">
+          <option value="">— sin asignar —</option>
+          <option value="Amigos">Amigos</option>
+          <option value="Familia">Familia</option>
+          <option value="Trabajo">Trabajo</option>
+          <option value="Amigos-Flia">Amigos-Flia</option>
+          <option value="__nueva__">+ Nueva etiqueta…</option>
+        </select>
+        <input id="editCategoriaNueva" type="text" placeholder="Nombre de la etiqueta" class="dash-input w-full mt-2 hidden">
+      </div>
+
+      <div class="flex gap-3 mt-2">
+        <button type="button" id="editCancel" class="flex-1 rounded-full border border-dash-line py-3 text-xs tracking-widest hover:bg-white/5 transition">CANCELAR</button>
+        <button type="submit" class="flex-1 rounded-full bg-dash-wine hover:bg-dash-pink py-3 text-xs tracking-widest transition-colors">GUARDAR</button>
+      </div>
+    </form>
+  </dialog>
+
+<script type="module" src="/src/admin/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Di &amp; Nico — 17.10.2026</title>
+<meta name="description" content="Nos casamos. 17 de octubre de 2026, Quinta Doña Elvira, Mendoza.">
+<meta name="theme-color" content="#FBF4E9">
+<!-- iOS Meta Tags -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Di & Nico">
+<link rel="apple-touch-icon" href="/media/foto8.png"> <!-- Un icono base -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Poppins:wght@200;300;400;500&display=swap" rel="stylesheet">
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+<!-- ============ FILTRO: ¿de qué lado venís? (antes del video) ============ -->
+<!-- Neutro a propósito: acá el invitado todavía no sabe de qué se trata.
+     La sorpresa la da el video. Nada de nombres juntos, fechas ni tipografías de boda. -->
+<div id="lado" class="fixed inset-0 z-[70] grid place-items-center px-6 overflow-hidden bg-[#0a0709]">
+  <!-- Rich background gradient with a hint of wine theme -->
+  <div class="absolute inset-0 opacity-80" aria-hidden="true"
+       style="background:radial-gradient(circle at 50% 40%, #1e151a 0%, #0a0709 100%)"></div>
+
+  <!-- Main Card with glassmorphism and subtle entry animation -->
+  <div class="relative w-full max-w-md rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-3xl p-10 text-center text-white shadow-[0_24px_80px_rgba(0,0,0,0.85)] transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]">
+    
+    <h1 class="text-[clamp(1.2rem,3.8vw,1.6rem)] font-light leading-relaxed tracking-wide text-white/95">
+      ¿De quién recibiste este mensaje?
+    </h1>
+    
+    <p class="mt-2 text-xs font-light tracking-widest text-white/40 uppercase">
+      Seleccioná una opción para continuar
+    </p>
+
+    <div class="mt-10 grid gap-4">
+      <!-- Nico Button -->
+      <button type="button" data-lado="nico"
+        class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-5
+               text-lg font-light tracking-[0.25em] text-white/90
+               hover:text-white hover:border-white/25 hover:bg-white/[0.08] hover:scale-[1.02]
+               active:scale-[.99] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer">
+        <!-- Hover background glow -->
+        <span class="absolute inset-0 bg-gradient-to-r from-[#EA4C93]/10 to-[#9E0A55]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" aria-hidden="true"></span>
+        <span class="relative z-10">Nico <span class="text-xs tracking-[0.15em] text-white/45 align-middle">/ Flia Mastra</span></span>
+      </button>
+
+      <!-- Diana Button -->
+      <button type="button" data-lado="diana"
+        class="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] px-6 py-5
+               text-lg font-light tracking-[0.25em] text-white/90
+               hover:text-white hover:border-white/25 hover:bg-white/[0.08] hover:scale-[1.02]
+               active:scale-[.99] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] cursor-pointer">
+        <!-- Hover background glow -->
+        <span class="absolute inset-0 bg-gradient-to-r from-[#EA4C93]/10 to-[#9E0A55]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700" aria-hidden="true"></span>
+        <span class="relative z-10">Diana <span class="text-xs tracking-[0.15em] text-white/45 align-middle">/ Flia Di Gasull</span></span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ INTRO: video presentador (antes de la portada) ============ -->
+<div id="intro" class="is-done fixed inset-0 z-[60] bg-black grid place-items-center overflow-hidden">
+  <!-- Relleno desenfocado para los costados en pantallas anchas -->
+  <div class="bg-fill-blur absolute inset-0 bg-center bg-no-repeat"
+       style="background-image:url('/media/intro-poster.jpg')" aria-hidden="true"></div>
+  <video id="introVideo"
+    class="relative z-10 w-full h-full object-cover md:object-contain md:max-h-[85vh] md:max-w-[450px] md:rounded-[2.5rem] md:border md:border-white/15 md:shadow-[0_30px_70px_rgba(0,0,0,0.9)]"
+    src="/media/intro.mp4" poster="/media/intro-poster.jpg"
+    muted playsinline preload="auto"></video>
+
+  <!-- Velo para que los títulos se lean sobre cualquier fotograma -->
+  <div class="absolute inset-0 z-10 bg-black/35" aria-hidden="true"></div>
+
+  <!-- Canvas para el efecto 3D del descorchazo -->
+  <canvas id="champagneCanvas" class="absolute inset-0 pointer-events-none z-30"></canvas>
+
+  <!-- Títulos encadenados (maquetados idénticos a la portada para calzar perfecto) -->
+  <div class="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-6 text-white pointer-events-none">
+    <div class="relative w-full select-none">
+      <!-- Título 1: NOS CASAMOS (Efecto mayor a menor, dura 4s) -->
+      <p id="introTitle1" class="text-[clamp(16px,4vw,22px)] tracking-[0.45em] font-light opacity-0 uppercase select-none">
+        NOS CASAMOS
+      </p>
+      
+      <!-- Título 2: Di & Nico (Choque Di y Nico contra &, dura 4s) -->
+      <h1 id="introTitle2" class="font-script text-[clamp(4.5rem,17vw,11rem)] leading-[0.9] mt-4 drop-shadow-[0_4px_30px_rgba(0,0,0,.45)] flex justify-center items-center opacity-0 select-none">
+        <span class="part-di inline-block">Di</span>
+        <span class="part-amp inline-block mx-5 text-[#EA4C93]">&amp;</span>
+        <span class="part-nico inline-block">Nico</span>
+      </h1>
+      
+      <!-- Título 3: the wedding (Efecto mayor a menor) -->
+      <p id="introTitle3" class="font-display italic text-[clamp(1.8rem,5.5vw,2.8rem)] font-light opacity-0 mt-1 select-none">
+        the wedding
+      </p>
+
+      <!-- Título 4: Fecha y Dirección (Aparece a los 12s, dura 4s) -->
+      <!-- flex-col a secas (sin sm:flex-row): se pidió que fecha y
+           ubicación queden siempre una debajo de la otra, en cualquier
+           tamaño de pantalla. -->
+      <div id="introTitle4" class="opacity-0 mt-7 flex flex-col items-center justify-center gap-3 select-none">
+        <div class="ios-glass-video rounded-[1.25rem] px-5 py-2.5">
+          <p class="text-[clamp(.75rem,2.6vw,1rem)] tracking-[0.35em] font-light">17 · OCTUBRE · 2026</p>
+        </div>
+        <div class="ios-glass-video rounded-[1.25rem] px-6 py-3">
+          <p class="font-display italic text-[1.15rem] font-light text-white">Quinta Doña Elvira, Mendoza</p>
+        </div>
+      </div>
+
+      <!-- Título 5: Reloj Conteo (Aparece a los 16s, dura 4s) -->
+      <div id="introTitle5" class="opacity-0 mt-24 select-none">
+        <div class="flex items-start justify-center gap-5 sm:gap-9" id="introCountdown">
+          <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="days">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">DÍAS</span></div>
+          <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="hours">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">HORAS</span></div>
+          <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="mins">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">MIN</span></div>
+          <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="secs">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">SEG</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="introSkip" type="button"
+    class="absolute z-30 bottom-8 right-6 rounded-full border border-white/30 bg-white/10 backdrop-blur-md
+           px-5 py-2 text-[10px] tracking-[0.3em] text-white/80 hover:text-white hover:bg-white/20 transition">
+    SALTAR
+  </button>
+</div>
+
+<!-- ============ HERO: portada fija (parallax) ============ -->
+<!-- grid place-items-center (no flex-col): mismo bug que tuvo el footer —
+     con flex-col, justify-center centra TODO el grupo de ítems (incluida
+     .parallax-stick, que mide 0 de alto) como bloque. Antes esto no se
+     notaba porque el contenido (countdown, pills, etc.) era casi tan alto
+     como min-h-[100svh] y sobraba poco espacio para centrar; al agrandar
+     "the wedding" y las píldoras de fecha/lugar en un cambio anterior, el
+     contenido se acortó lo suficiente como para que el punto de anclaje de
+     la foto quedara ~125px corrido hacia abajo — el margen gris que se veía
+     arriba (era el gradiente semitransparente mostrando el fondo crema del
+     body detrás, no la foto, porque la foto todavía no arrancaba ahí). Con
+     grid, la fila de .parallax-stick (grid-area:1/1 en style.css) mide 0 y
+     no empuja nada: la foto queda anclada arriba de todo el header sin
+     importar la altura del contenido. -->
+<header id="hero" class="parallax-clip relative min-h-[100svh] grid place-items-center text-center">
+  <div class="parallax-stick" aria-hidden="true">
+    <div class="parallax-layer" style="background-image:url('/media/portada.jpg');background-position:center 30%"></div>
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/60 to-black/85"></div>
+
+  <div class="relative z-10 px-6 text-white mt-10">
+    <p class="settle settle-1 text-[clamp(16px,4vw,22px)] tracking-[0.45em] font-light opacity-90 drop-shadow-[0_2px_12px_rgba(0,0,0,.8)] animate-nos-casamos-loop">NOS CASAMOS</p>
+    <h1 class="settle settle-2 font-script text-[clamp(4.5rem,17vw,11rem)] leading-[0.9] mt-4 drop-shadow-[0_4px_30px_rgba(0,0,0,.45)]">Di <span class="text-[#EA4C93]">&amp;</span> Nico</h1>
+    <p class="settle settle-3 font-display italic text-[clamp(1.8rem,5.5vw,2.8rem)] font-light opacity-85 mt-1 animate-nos-casamos-loop">the wedding</p>
+
+    <div class="settle settle-3 mt-7 flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
+      <div class="ios-glass-strong rounded-[1.25rem] px-5 py-2.5">
+        <p class="text-[clamp(.75rem,2.6vw,1rem)] tracking-[0.35em] font-light text-white drop-shadow-[0_1px_4px_rgba(0,0,0,.6)]">17 · OCTUBRE · 2026</p>
+      </div>
+      <div class="ios-glass-strong rounded-[1.25rem] px-5 py-2.5">
+        <p class="font-display italic text-[1.1rem] text-white opacity-95 drop-shadow-[0_1px_4px_rgba(0,0,0,.6)]">Quinta Doña Elvira, Mendoza</p>
+      </div>
+    </div>
+
+    <div class="settle settle-3 mt-24">
+      <div class="flex items-start justify-center gap-5 sm:gap-9" id="countdown">
+        <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="days">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">DÍAS</span></div>
+        <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="hours">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">HORAS</span></div>
+        <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="mins">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">MIN</span></div>
+        <div class="w-16"><span class="block text-[29px] sm:text-[47px] font-extralight tabular-nums" data-cd="secs">00</span><span class="block text-[9px] tracking-[0.3em] opacity-65 mt-2">SEG</span></div>
+      </div>
+    </div>
+
+    <a href="#rsvp" class="cue inline-block mt-16 text-[10px] tracking-[0.4em] text-white/70">DESLIZÁ ↓</a>
+  </div>
+
+  <!-- FIN HERO -->
+</header>
+
+<!-- Controles flotantes: van fuera del <header> a propósito.
+     El hero usa clip-path para recortar el fondo parallax, y clip-path
+     recorta también a los hijos position:fixed — adentro desaparecerían
+     al scrollear. -->
+<div>
+  <!-- Admin Login -->
+  <button id="adminLoginBtn" type="button" title="Panel de Administración"
+    class="fixed z-40 bottom-6 right-6 h-12 w-12 rounded-full grid place-items-center text-white
+           bg-black/25 backdrop-blur-xl border border-white/25 hover:bg-black/40 transition">
+    <span aria-hidden="true" class="text-sm">🔒</span>
+    <span class="sr-only">Admin Dashboard</span>
+  </button>
+
+  <!-- Música: solo suena durante la presentación (video de intro), sin control
+       manual en la landing — por eso no hay botón acá, únicamente el <audio>. -->
+  <audio id="ambient" src="/media/ambient.mp3" preload="auto"></audio>
+</div>
+
+<main>
+
+  <!-- ============ Frase de apertura (keynote) ============ -->
+  <section class="py-20 px-6">
+    <p class="reveal mx-auto max-w-3xl text-center font-display font-light italic text-[clamp(1.8rem,5.5vw,3.2rem)] leading-[1.25]">
+      Después de tantos años juntos,<br>queremos celebrarlo con vos.
+    </p>
+  </section>
+
+  <!-- ============ RSVP ============ -->
+  <section id="rsvp" class="pb-20 px-6">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="reveal text-[11px] tracking-[0.45em] text-[#EA4C93]">RSVP</p>
+      <h2 class="reveal reveal-delay-1 font-display text-[clamp(2.4rem,7vw,4rem)] font-light mt-5">Confirmá tu asistencia</h2>
+      
+      <div class="reveal reveal-delay-2 mt-8 inline-block rounded-2xl bg-[#EA4C93]/5 border border-[#EA4C93]/20 px-6 py-4">
+        <p class="font-display italic text-lg text-[#EA4C93] font-medium">Por favor confirmar antes del 17 de Septiembre</p>
+      </div>
+
+      <button id="openRsvp" type="button"
+        class="reveal reveal-delay-3 mt-12 rounded-full px-12 py-5 text-[12px] tracking-[0.28em] text-white bg-ink
+               hover:bg-[#EA4C93] hover:scale-[1.03] active:scale-[.98] transition-all duration-500 ease-[cubic-bezier(.16,1,.3,1)]">
+        CONFIRMAR ASISTENCIA
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ Regalo ============ -->
+  <section id="gift" class="py-20 px-6">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="reveal text-[11px] tracking-[0.45em] text-[#EA4C93]">EL REGALO</p>
+      <h2 class="reveal reveal-delay-1 font-display text-[clamp(2.4rem,7vw,4rem)] font-light mt-5">Tu presencia</h2>
+      <p class="reveal reveal-delay-2 mt-8 text-ink/65 leading-relaxed max-w-lg mx-auto">
+        Tu presencia y tu cariño son el regalo más lindo que nos podés hacer <span class="text-[#EA4C93]">♥</span><br><br>
+        Si de todas formas querés tener un gesto con nosotros, estos son los alias para transferir:
+      </p>
+      <dl class="reveal reveal-delay-3 mt-12 grid gap-4 sm:grid-cols-2">
+        <div class="rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 p-8">
+          <dt class="text-[10px] tracking-[0.35em] text-[#EA4C93]">PESOS</dt>
+          <dd class="mt-3 flex items-center justify-center gap-2">
+            <span id="aliasPesos" class="font-display italic text-xl break-words">PALA.CONEJO.PASION</span>
+            <button type="button" data-copy-target="aliasPesos" title="Copiar alias" class="alias-copy-btn shrink-0">
+              <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </button>
+          </dd>
+        </div>
+        <div id="aliasDolaresCard" class="rounded-3xl bg-white/60 backdrop-blur-xl border border-white/60 p-8">
+          <dt class="text-[10px] tracking-[0.35em] text-[#EA4C93]">DÓLARES</dt>
+          <dd class="mt-3 flex items-center justify-center gap-2">
+            <span id="aliasDolares" class="font-display italic text-xl break-words">DORADO.CASCO.CIMA</span>
+            <button type="button" data-copy-target="aliasDolares" title="Copiar alias" class="alias-copy-btn shrink-0">
+              <svg class="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+              <svg class="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+            </button>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- ============ Detalles ============ -->
+  <section id="details" class="py-20 px-6">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="reveal text-[11px] tracking-[0.45em] text-[#EA4C93]">THE DETAILS</p>
+      <h2 class="reveal reveal-delay-1 font-display text-[clamp(2.4rem,7vw,4rem)] font-light mt-5">Todo lo que necesitás saber</h2>
+
+      <div class="reveal reveal-delay-2 mt-14 rounded-[2rem] bg-white/60 backdrop-blur-xl border border-white/60 p-12">
+        <p class="text-[10px] tracking-[0.35em] text-[#EA4C93]">FECHA Y HORA</p>
+        <p class="font-display text-4xl font-light mt-4">17 de octubre, 2026</p>
+        <p class="text-ink/55 mt-2">17:30 hs — ceremonia y fiesta</p>
+        <a id="calBtn" href="#" target="_blank" rel="noopener"
+          class="inline-block mt-9 rounded-full border border-[#EA4C93]/40 px-9 py-3.5 text-[11px] tracking-[0.25em] text-[#EA4C93] hover:bg-[#EA4C93] hover:text-white transition-colors duration-500">
+          AGREGAR AL CALENDARIO
+        </a>
+      </div>
+
+      <div class="reveal reveal-delay-3 mt-6 rounded-[2rem] bg-white/60 backdrop-blur-xl border border-white/60 p-12">
+        <p class="text-[10px] tracking-[0.35em] text-[#EA4C93]">EL LUGAR</p>
+        <p class="font-display text-4xl font-light mt-4">Quinta Doña Elvira</p>
+        <p class="text-ink/55 mt-2">Mendoza, Argentina</p>
+        <a href="https://maps.app.goo.gl/9kzsDu4xntjDCiQW7" target="_blank" rel="noopener"
+          class="inline-block mt-9 rounded-full border border-[#EA4C93]/40 px-9 py-3.5 text-[11px] tracking-[0.25em] text-[#EA4C93] hover:bg-[#EA4C93] hover:text-white transition-colors duration-500">
+          VER EN EL MAPA
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Parallax ============ -->
+  <!-- Una sola capa a cover (sin la copia borrosa de atrás — quedaba como
+       si la foto se viera "dos veces"). La capa de fondo mide 100vh fijo
+       (necesario para el truco de position:sticky que evita el bug de
+       background-attachment:fixed en iOS — ver Gabi.md), así que la sección
+       tiene que medir cerca de eso para que se llegue a ver la imagen
+       completa y para que el scroll dé lugar a que el efecto se note; una
+       banda muy baja sólo alcanza a mostrar la franja de arriba. -->
+  <!-- Foco corrido hacia abajo (75%): al entrar a la sección el ojo cae
+       antes sobre el cielo/árboles; la parte de interés (pareja + camino)
+       está más abajo, así que el encuadre principal la privilegia a ella. -->
+  <section class="parallax-clip relative h-[90vh] grid place-items-center">
+    <div class="parallax-stick" aria-hidden="true">
+      <div class="parallax-layer" style="background-image:url('/media/foto8.png');background-position:center 75%"></div>
+    </div>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <p class="reveal relative font-script text-white text-[clamp(3rem,10vw,6rem)] drop-shadow-[0_4px_30px_rgba(0,0,0,.5)]">17 · 10 · 26</p>
+  </section>
+
+  <!-- ============ Paletas ============ -->
+  <section id="palette" class="py-20 px-6">
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="reveal text-[11px] tracking-[0.45em] text-[#EA4C93]">THE COLOUR PALETTE</p>
+      <h2 class="reveal reveal-delay-1 font-display text-[clamp(2rem,6vw,3.2rem)] font-light mt-5">Para ellas</h2>
+      <ul class="reveal reveal-delay-2 mt-10 grid grid-cols-5 gap-3">
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#F5C518"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#F5871F"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#F9A6E8"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#EA4C93"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#A93BE0"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#E2321F"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#8A1B0C"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#7A3B1B"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#9E0A55"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#6B2467"></li>
+      </ul>
+
+      <h2 class="reveal font-display text-[clamp(2rem,6vw,3.2rem)] font-light mt-24">Para ellos</h2>
+      <ul class="reveal reveal-delay-1 mt-10 grid grid-cols-4 gap-3">
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#111111"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#8a8a8a"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#2b3f66"></li>
+        <li class="aspect-square rounded-2xl transition-transform duration-500 hover:scale-110" style="background:#7fb3d9"></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ Galería + collage de mensajes ============ -->
+  <section id="galeria" class="pb-20 px-6">
+    <div class="mx-auto max-w-5xl">
+      <p class="reveal text-center text-[11px] tracking-[0.45em] text-[#EA4C93]">NOSOTROS</p>
+      <h2 class="reveal reveal-delay-1 text-center font-display text-[clamp(2.4rem,7vw,4rem)] font-light mt-5">Un poco de nuestra historia</h2>
+      <p class="reveal reveal-delay-2 text-center mt-5 font-display italic text-lg text-ink/55">
+        Nuestras fotos, y los mensajes que nos van dejando ustedes.
+      </p>
+
+      <div id="collage" class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <figure class="reveal overflow-hidden rounded-2xl"><img src="/media/galeria-1.jpg" alt="Di y Nico brindando en un viñedo" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+        <figure class="reveal reveal-delay-1 overflow-hidden rounded-2xl"><img src="/media/galeria-3.jpg" alt="Di y Nico en la nieve" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+        <figure class="reveal reveal-delay-2 overflow-hidden rounded-2xl"><img src="/media/galeria-4.jpg" alt="Di y Nico jugando en la playa" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+        <figure class="reveal reveal-delay-3 overflow-hidden rounded-2xl"><img src="/media/galeria-6.jpg" alt="Di y Nico en Chichén Itzá" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+        <figure class="reveal overflow-hidden rounded-2xl"><img src="/media/galeria-5.jpg" alt="Di y Nico en la playa al atardecer" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+        <figure class="reveal reveal-delay-1 overflow-hidden rounded-2xl"><img src="/media/galeria-7.jpg" alt="Di y Nico abrazados frente al mar" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+        <figure class="reveal reveal-delay-2 overflow-hidden rounded-2xl"><img src="/media/galeria-2.jpg" alt="Di y Nico con copas de vino" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+        <figure class="reveal reveal-delay-3 overflow-hidden rounded-2xl"><img src="/media/galeria-8.jpg" alt="Viñedo mendocino" loading="lazy" width="900" height="1200" class="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] hover:scale-105"></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Muro de deseos ============ -->
+  <!-- pb-6 (no pb-0): se había sacado del todo el espacio antes del
+       agradecimiento final, pero pegado a 0 quedaba demasiado justo contra
+       la foto4 — se pidió un margen chico, no ninguno. -->
+  <section id="muro" class="pt-20 pb-6 px-6">
+    <div class="mx-auto max-w-3xl">
+      <p class="reveal text-center text-[11px] tracking-[0.45em] text-[#EA4C93]">EL MURO</p>
+      <h2 class="reveal reveal-delay-1 text-center font-display text-[clamp(2.4rem,7vw,4rem)] font-light mt-5">Dejanos unas palabras</h2>
+      <p class="reveal reveal-delay-2 text-center mt-5 font-display italic text-lg text-ink/55">
+        Un deseo, un chiste interno, una amenaza velada sobre el open bar.
+      </p>
+
+      <form id="muroForm" class="reveal reveal-delay-3 mt-12 mx-auto max-w-xl rounded-[1.75rem] border border-white/60 bg-white/50 backdrop-blur-2xl p-8 grid gap-6" novalidate>
+        <div>
+          <label for="muroNombre" class="text-[10px] tracking-[0.3em] text-ink/50">DE PARTE DE</label>
+          <input id="muroNombre" name="nombre" type="text" required autocomplete="name" placeholder="Tu nombre"
+            class="letter-field font-display text-xl mt-1">
+        </div>
+        <div>
+          <label for="muroMensaje" class="text-[10px] tracking-[0.3em] text-ink/50">TU MENSAJE</label>
+          <textarea id="muroMensaje" name="mensaje" rows="3" required maxlength="400" placeholder="Escribí lo que quieras…"
+            class="letter-field font-display text-xl mt-1 resize-none"></textarea>
+        </div>
+        <p id="muroError" class="text-sm text-red-800 hidden" role="alert"></p>
+        <button type="submit" id="muroSubmit"
+          class="justify-self-center rounded-full bg-ink px-9 py-4 text-[12px] tracking-[0.28em] text-white
+                 hover:bg-[#EA4C93] hover:scale-[1.02] active:scale-[.98] transition-all duration-500 disabled:opacity-50">
+          DEJAR MI MENSAJE
+        </button>
+      </form>
+
+      <p id="muroEstado" class="mt-8 text-center font-display italic text-ink/45">Cargando mensajes…</p>
+      <p class="mt-2 text-center text-[10px] tracking-[0.3em] text-ink/35">
+        <a href="#galeria" class="hover:text-[#EA4C93] transition">TU MENSAJE APARECE ENTRE NUESTRAS FOTOS ↑</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<!-- min-h en vez de sólo padding: la capa de fondo mide 100vh fijo (ver nota
+     de la sección "Parallax" más arriba) — con sólo py-40 el footer medía
+     mucho menos que eso y se veía sólo la franja de arriba de la foto. -->
+<!-- h-[90vh] fijo (no min-h) a propósito, igual que la banda del viñedo
+     (foto8) más arriba: con altura fija la imagen se recorta más apaisada
+     (cover sobre una caja baja y ancha) en vez de estirarse vertical.
+     "flex-col" es obligatorio acá: sin ella, .parallax-stick (ancho 100%) y
+     el bloque de texto quedan como dos ítems de un flex-row por default y
+     se reparten el ancho en vez de superponerse.
+     "grid place-items-center" (no flex-col): con flex-col + h-[90vh] fijo,
+     justify-center centra TODO el grupo de ítems como bloque — y como
+     .parallax-stick mide 0 de alto, ese ítem (y por lo tanto el punto de
+     anclaje top:0 de la foto) terminaba corrido varios cientos de px hacia
+     abajo (la mitad del espacio libre entre la altura fija del section y el
+     contenido, bastante más bajo que el contenido real), dejando la mitad de
+     arriba del section sin foto — el "espacio en blanco" que se veía antes
+     de la banda. Con grid, la fila de .parallax-stick (grid-area:1/1) mide 0
+     y no empuja nada: la foto queda anclada arriba de todo el section sin
+     importar cuánto más alto sea el section que el contenido. Mismo patrón
+     que ya usa la banda del viñedo (foto8) más arriba. -->
+<footer class="parallax-clip relative h-[90vh] grid place-items-center text-center overflow-hidden">
+  <div class="parallax-stick" aria-hidden="true">
+    <div class="parallax-layer" style="background-image:url('/media/foto4.jpeg');background-position:center 40%"></div>
+  </div>
+  <!-- Foco un poco más abajo (40%, no 30%): la tarjeta vive en el centro
+       vertical del section, así que el punto de interés de la foto que
+       queda detrás de ella también se corre un poco para no quedar
+       "arriba de todo" respecto de la tarjeta. -->
+  <!-- Sin velo sobre la foto: se pidió que foto4 se vea entera, sin el
+       rectángulo grisáceo que dejaba el degradé. El contraste del texto
+       ahora corre por cuenta del blur + sombra de la tarjeta glass de abajo,
+       no de oscurecer la imagen. -->
+
+  <!-- "Gracias por ser parte" + "Di & Nico" ancladas arriba de la foto
+       (absolute top-8, centradas en los laterales con inset-x-0) — se pidió
+       sacarlas del centro vertical y subirlas al principio de la sección.
+       Siguen con su píldora glass suave individual, sin panel grande. -->
+  <div class="reveal absolute top-8 inset-x-0 flex flex-col items-center gap-4 px-6">
+    <p class="inline-block rounded-full px-5 py-1.5 text-[11px] tracking-[0.5em] text-white/85 border border-white/20" style="background:linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.03));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)">GRACIAS POR SER PARTE</p>
+    <p class="inline-block rounded-[2rem] px-10 py-2 font-script text-[clamp(3rem,13vw,6rem)] leading-[0.95] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,.4)] border border-white/20" style="background:linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.03));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)">Di <span class="text-[#EA4C93]">&amp;</span> Nico</p>
+  </div>
+
+  <!-- "Nos vemos en la fiesta" con la misma píldora glass que "Gracias por
+       ser parte" (mismo gradient/blur/borde) — se pidió que comparta fondo,
+       ya no suelta sin contenedor. -->
+  <p class="reveal relative inline-block rounded-full px-8 py-2.5 font-display italic text-2xl sm:text-3xl text-white border border-white/20" style="background:linear-gradient(135deg, rgba(255,255,255,.14), rgba(255,255,255,.03));backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)">Nos vemos en la fiesta <span class="text-[#EA4C93]">♥</span></p>
+
+  <!-- Píldora de fecha/lugar reubicada: ya no debajo del título, sino
+       anclada abajo de toda la foto y centrada (absolute + inset-x-0).
+       bottom-2 (no bottom-8): se pidió bajarla más para no tapar las caras
+       de la pareja en la foto — cuanto más pegada al borde, más cara libre
+       queda arriba de la píldora. -->
+  <div class="reveal absolute bottom-2 inset-x-0 flex justify-center px-6">
+    <div class="ios-glass inline-flex flex-col sm:flex-row items-center gap-2 sm:gap-4 rounded-[1.25rem] px-7 py-4">
+      <p class="text-[10px] sm:text-[11px] tracking-[0.25em] sm:tracking-[0.35em] text-white font-light whitespace-nowrap">17 · OCTUBRE · 2026</p>
+      <span class="hidden sm:block h-3 w-px bg-white/30" aria-hidden="true"></span>
+      <p class="font-display italic text-white/90 text-base text-center whitespace-nowrap">Quinta Doña Elvira, Mendoza</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ MODAL RSVP: invitación estilo carta ============ -->
+<dialog id="rsvpModal"
+  class="m-auto w-[min(36rem,94vw)] bg-transparent p-0 backdrop:bg-black/70 backdrop:backdrop-blur-2xl">
+  <div class="invitation-card relative">
+    <!-- Sello de lacre -->
+    <div class="wax-seal" aria-hidden="true">♥</div>
+
+    <button id="closeRsvp" type="button" aria-label="Cerrar"
+      class="absolute right-6 top-6 z-10 text-2xl leading-none text-ink/35 hover:text-ink transition">×</button>
+
+    <div class="invitation-inner relative rounded-[1.5rem] p-9 sm:p-12 text-ink max-h-[85vh] overflow-y-auto scrollbar-modern">
+      <p class="text-center text-[10px] tracking-[0.5em] text-[#9E0A55]">SE COMPLACEN EN INVITARLE</p>
+      <h2 class="text-center font-script text-5xl mt-4">Querido invitado</h2>
+      <div class="ornament-divider" aria-hidden="true"><span>❦</span></div>
+      <p class="text-center font-display italic text-ink/60 mt-2 leading-relaxed">
+        Contanos si nos vas a acompañar en Quinta Doña Elvira.
+      </p>
+
+      <!-- flex-col en vez de "grid gap-7": el gap fijo de grid deja el mismo
+           hueco entre filas aunque un .rsvp-step esté colapsado a 0 con
+           max-height — con flex-col el margin-top de cada paso vive DENTRO
+           de .rsvp-step/.rsvp-step-visible (ver style.css) y colapsa junto
+           con el resto cuando el paso está oculto. -->
+      <form id="rsvpForm" class="mt-10 flex flex-col" novalidate>
+        <div>
+          <label for="nombre" class="text-[10px] tracking-[0.3em] text-ink/80 font-bold">NOMBRE Y APELLIDO</label>
+          <input id="nombre" name="nombre" type="text" required autocomplete="name"
+            placeholder="Tu nombre" class="letter-field font-display text-xl mt-1">
+        </div>
+
+        <!-- Cada paso arranca oculto (.rsvp-step) y rsvp.js le agrega
+             .rsvp-step-visible con un efecto de aparición a medida que se
+             completa el paso anterior — ver setupProgressiveReveal() en
+             rsvp.js. "¿Nos acompañás?" es el único que se muestra ni bien
+             hay nombre cargado; el resto depende en cascada. -->
+        <div id="stepAsistencia" class="rsvp-step">
+          <label for="asistencia" class="text-[10px] tracking-[0.3em] text-ink/80 font-bold">¿NOS ACOMPAÑÁS?</label>
+          <select id="asistencia" name="asistencia" required class="letter-field font-display text-xl mt-1">
+            <option value="Sí">Sí, ahí estaré</option>
+            <option value="No">No voy a poder</option>
+          </select>
+        </div>
+
+        <!-- Acompañantes/restricciones/tema sólo tienen sentido si vienen a
+             la fiesta — se pidió ocultarlos del todo (no sólo colapsados)
+             cuando "¿Nos acompañás?" = "No voy a poder"; rsvp.js maneja esto
+             sacando .rsvp-step-visible Y el atributo required de los radios
+             de acompañantes (si no, el navegador intenta validar un campo
+             oculto y bloquea el envío). -->
+        <div id="stepAcompanantes" class="rsvp-step">
+          <fieldset>
+            <legend class="text-[10px] tracking-[0.3em] text-ink/80 font-bold mb-3">ACOMPAÑANTES</legend>
+            <div class="flex flex-wrap gap-2">
+              <label class="cursor-pointer">
+                <input type="radio" name="tipoAcompanante" value="solo" class="peer sr-only" required>
+                <span class="block px-6 py-3 rounded-full border border-ink/20 text-xs tracking-[0.1em] font-display text-ink/70 peer-checked:bg-[#9E0A55] peer-checked:text-white peer-checked:border-[#9E0A55] transition-all hover:border-[#9E0A55]/50">Voy Solo</span>
+              </label>
+              <label class="cursor-pointer">
+                <input type="radio" name="tipoAcompanante" value="pareja" class="peer sr-only">
+                <span class="block px-6 py-3 rounded-full border border-ink/20 text-xs tracking-[0.1em] font-display text-ink/70 peer-checked:bg-[#9E0A55] peer-checked:text-white peer-checked:border-[#9E0A55] transition-all hover:border-[#9E0A55]/50">En Pareja</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- Sólo se muestra cuando "Acompañantes" = En Pareja (ver rsvp.js) -->
+        <div id="stepNombreAcompanante" class="rsvp-step">
+          <label for="nombreAcompanante" class="text-[10px] tracking-[0.3em] text-ink/80 font-bold">NOMBRE DEL ACOMPAÑANTE</label>
+          <input id="nombreAcompanante" name="nombreAcompanante" type="text" autocomplete="off"
+            placeholder="Nombre y apellido de quien te acompaña" class="letter-field font-display text-xl mt-1">
+        </div>
+
+        <div id="stepRestricciones" class="rsvp-step">
+          <label for="restricciones" class="text-[10px] tracking-[0.3em] text-ink/80 font-bold">RESTRICCIONES ALIMENTICIAS (TUYAS)</label>
+          <select id="restricciones" name="restricciones" class="letter-field font-display text-xl mt-1">
+            <option value="Ninguna">Ninguna</option>
+            <option value="Alergia al gluten / Celiaquía">Alergia al gluten / Celiaquía</option>
+            <option value="Intolerancia a la lactosa">Intolerancia a la lactosa</option>
+            <option value="Vegetariano">Vegetariano</option>
+            <option value="Vegano">Vegano</option>
+            <option value="Diabético / Restricción de azúcar">Diabético / Restricción de azúcar</option>
+            <option value="Hipertensión / Bajo sodio">Hipertensión / Bajo sodio</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <input id="restriccionesOtro" name="restriccionesOtro" type="text" placeholder="Contanos cuál"
+            class="letter-field font-display text-xl mt-2 hidden">
+        </div>
+
+        <!-- Sólo se muestra cuando "Acompañantes" = En Pareja -->
+        <div id="stepRestriccionesAcompanante" class="rsvp-step">
+          <label for="restriccionesAcompanante" class="text-[10px] tracking-[0.3em] text-ink/80 font-bold">RESTRICCIONES ALIMENTICIAS (ACOMPAÑANTE)</label>
+          <select id="restriccionesAcompanante" name="restriccionesAcompanante" class="letter-field font-display text-xl mt-1">
+            <option value="Ninguna">Ninguna</option>
+            <option value="Alergia al gluten / Celiaquía">Alergia al gluten / Celiaquía</option>
+            <option value="Intolerancia a la lactosa">Intolerancia a la lactosa</option>
+            <option value="Vegetariano">Vegetariano</option>
+            <option value="Vegano">Vegano</option>
+            <option value="Diabético / Restricción de azúcar">Diabético / Restricción de azúcar</option>
+            <option value="Hipertensión / Bajo sodio">Hipertensión / Bajo sodio</option>
+            <option value="Otro">Otro</option>
+          </select>
+          <input id="restriccionesAcompananteOtro" name="restriccionesAcompananteOtro" type="text" placeholder="Contanos cuál"
+            class="letter-field font-display text-xl mt-2 hidden">
+        </div>
+
+        <div id="stepCancion" class="rsvp-step">
+          <label for="cancion" class="text-[10px] tracking-[0.3em] text-ink/80 font-bold">¿QUÉ TEMA NO PUEDE FALTAR EN LA FIESTA?</label>
+          <textarea id="cancion" name="cancion" rows="2" placeholder="(opcional)"
+            class="letter-field font-display text-xl mt-1 resize-none"></textarea>
+        </div>
+
+        <p id="rsvpError" class="text-sm text-red-800 hidden" role="alert"></p>
+
+        <div id="stepSubmit" class="rsvp-step">
+          <button type="submit" id="rsvpSubmit"
+            class="rounded-full bg-[#9E0A55] px-8 py-4 text-[12px] tracking-[0.28em] text-white
+                   hover:bg-ink hover:scale-[1.02] active:scale-[.98] transition-all duration-500 disabled:opacity-50">
+            ENVIAR CONFIRMACIÓN
+          </button>
+        </div>
+      </form>
+
+      <div id="rsvpSuccess" class="hidden py-14 text-center">
+        <p class="text-5xl text-[#EA4C93]">♥</p>
+        <p class="font-script text-4xl mt-5">¡Gracias!</p>
+        <p class="font-display italic text-ink/60 mt-3">Tu confirmación quedó registrada.</p>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- ============ LIGHTBOX DE FOTOS: amplía al hacer doble tap/click ============ -->
+<dialog id="lightboxModal"
+  class="m-auto w-screen h-screen bg-transparent p-0 backdrop:bg-black/95 backdrop:backdrop-blur-2xl">
+  <div class="relative w-full h-full flex flex-col justify-center items-center p-4">
+    <!-- Botón de cerrar minimalista -->
+    <button id="closeLightbox" type="button" aria-label="Cerrar"
+      class="absolute right-6 top-6 text-white/70 hover:text-white transition-colors z-50 cursor-pointer">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    
+    <!-- Contenedor de la Imagen -->
+    <div class="relative max-w-[96vw] max-h-[92vh] flex justify-center items-center select-none">
+      <img id="lightboxImg" src="" alt="Foto ampliada"
+        class="max-w-full max-h-[92vh] object-contain rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] border border-white/10">
+
+      <!-- Comentarios superpuestos sobre el borde inferior de la foto (se
+           gestiona en muro.js, el contenedor se mantiene para anclar). -->
+      <div id="lightboxComments" class="absolute bottom-0 left-0 w-full px-4 pb-4 flex justify-center z-40 pointer-events-none">
+        <!-- Se inyectarán dinámicamente -->
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>

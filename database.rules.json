@@ -1,0 +1,31 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "rsvps": {
+      ".read": true,
+      ".write": true
+    },
+
+    "mensajes": {
+      ".read": true,
+      ".write": true
+    },
+
+    "meta": {
+      ".read": true,
+      ".write": "auth != null"
+    },
+
+    "padron": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+
+    "conciliacion": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
+  }
+}

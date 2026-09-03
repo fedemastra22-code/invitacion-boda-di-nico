@@ -1,0 +1,14 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# El scanner de secretos de Netlify bloquea cualquier deploy si encuentra el
+# valor de una variable de entorno adentro del build final — sin distinguir
+# entre un secreto real (ej. GEMINI_API_KEY, que nunca debería estar acá) y
+# la config web de Firebase, que está DISEÑADA para viajar al cliente (la
+# seguridad de Firebase la dan las Reglas de la base de datos, no ocultar
+# este apiKey — ver src/modules/firebase.js). Sin esto, cada deploy fallaba
+# con "Secrets scanning found secrets in build" apenas Netlify detectaba
+# estas 8 variables VITE_FIREBASE_* dentro de dist/assets/firebase-*.js.
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "VITE_FIREBASE_API_KEY,VITE_FIREBASE_APP_ID,VITE_FIREBASE_AUTH_DOMAIN,VITE_FIREBASE_DATABASE_URL,VITE_FIREBASE_MEASUREMENT_ID,VITE_FIREBASE_MESSAGING_SENDER_ID,VITE_FIREBASE_PROJECT_ID,VITE_FIREBASE_STORAGE_BUCKET"
