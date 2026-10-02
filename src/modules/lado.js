@@ -1,7 +1,7 @@
 // Filtro previo: el invitado elige de qué lado viene. Sólo cambia los alias
 // del regalo; el resto de la invitación es igual para todos.
 const ALIAS = {
-  nico: { pesos: 'PALA.CONEJO.PASION', dolares: 'DORADO.CASCO.CIMA' },
+  nico: { pesos: 'PALA.CONEJO.PASION', dolares: 'DORADO.CASO.CIMA' },
   diana: { pesos: 'Bodadiynico', dolares: null }, // Diana no muestra alias en dólares
 }
 const CLAVE = 'ladoInvitado'
