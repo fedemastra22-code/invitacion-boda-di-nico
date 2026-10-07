@@ -1,5 +1,20 @@
 import './style.css'
 import { WEDDING } from './config.js'
+
+// Auto-recarga por versión: algunos navegadores (sobre todo el browser
+// interno de WhatsApp en celulares) guardan una foto vieja de la página y no
+// la vuelven a pedir aunque el servidor tenga una versión nueva. version.json
+// se pide siempre con cache:'no-store' (nunca usa caché), así que aunque este
+// mismo main.js esté corriendo desde una copia vieja, igual detecta el
+// desfasaje y fuerza una recarga real con una URL nueva (nunca cacheada).
+fetch('/version.json', { cache: 'no-store' })
+  .then((r) => r.json())
+  .then(({ v }) => {
+    const prev = localStorage.getItem('siteVersion')
+    localStorage.setItem('siteVersion', v)
+    if (prev && prev !== v) location.href = location.pathname + '?v=' + v
+  })
+  .catch(() => {})
 import { initLado } from './modules/lado.js'
 import { initIntro, playIntro } from './modules/intro.js'
 import { initCountdown } from './modules/countdown.js'
