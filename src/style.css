@@ -394,14 +394,19 @@ body.admin-dash { background: var(--color-dash); color: var(--color-dash-cream);
 
 /* ---------- Itinerario: fondo con textura papel (sin tarjeta) ----------
    Se sacó el contenedor rectangular — la lista de horarios queda suelta
-   sobre el fondo de la sección. La textura (SVG de ruido fractal en base64,
-   liviano) vive ahora en el fondo de TODA la sección, no en una card chica,
-   y con más opacidad/octavas para que tenga presencia real, no quede sutil
-   al punto de no notarse. */
+   sobre el fondo de la sección. Trama diagonal tipo tela/lino (referencia
+   del cliente) en vez del ruido fractal anterior — mismo color de fondo
+   (--color-cream), sólo cambia el patrón de la textura. */
 .itinerario-bg {
   position: relative;
   background-color: var(--color-cream);
-  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDAiIGhlaWdodD0iMTQwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC43NSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuMTYiLz48L3N2Zz4=");
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(43,35,32,.055) 0px,
+    rgba(43,35,32,.055) 1px,
+    transparent 1px,
+    transparent 3px
+  );
 }
 .itinerario-icon { color: var(--color-ink); filter: drop-shadow(0 2px 2px rgba(43,35,32,.18)); }
 .itinerario-icon svg { width: 2.25rem; height: 2.25rem; }
