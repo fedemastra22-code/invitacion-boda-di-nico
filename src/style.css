@@ -22,17 +22,24 @@
 }
 
 html { scroll-behavior: smooth; }
-/* Trama tipo lino (no diagonal — a diferencia de un twill, el lino se teje
-   derecho: hilos horizontales + verticales cruzados) en TODO el fondo claro
-   del sitio, no sólo en la sección Itinerario donde se probó primero. Las
-   secciones con su propio fondo (parallax de fotos, admin oscuro) lo tapan
-   encima sin problema. */
+/* Trama de lino (referencia de foto real del cliente): grano fino de fibra
+   (ruido SVG desaturado, muy liviano) + hilos horizontales/verticales finos
+   encima, para que se note el tejido y no sólo un grano parejo. Variable
+   reusada también en el papel del RSVP (.invitation-inner) más abajo, así
+   quedan con la misma tela, sin cambiar el color de fondo de ninguno de
+   los dos. Vive en TODO el fondo claro del sitio (el `body`), no sólo en
+   Itinerario — las secciones con fondo propio (parallax, admin oscuro) lo
+   tapan encima sin problema. */
+:root {
+  --texture-linen:
+    url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MCIgaGVpZ2h0PSI5MCI+PGZpbHRlciBpZD0ibiI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjEuMSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuMTEiLz48L3N2Zz4="),
+    repeating-linear-gradient(0deg, rgba(43,35,32,.05) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(43,35,32,.05) 0 1px, transparent 1px 4px);
+}
 body {
   background-color: var(--color-cream);
   color: var(--color-ink);
-  background-image:
-    repeating-linear-gradient(0deg, rgba(43,35,32,.05) 0 1px, transparent 1px 3px),
-    repeating-linear-gradient(90deg, rgba(43,35,32,.05) 0 1px, transparent 1px 3px);
+  background-image: var(--texture-linen);
 }
 /* El admin vive en <body class="admin-dash">. Va como regla propia (no una
    utilidad bg-dash de Tailwind) porque las utilidades corren dentro de
@@ -448,10 +455,17 @@ body.admin-dash { background: var(--color-dash); color: var(--color-dash-cream);
    adentro no lo toca), y la carta interior es cream sólido, no glass —
    necesitaba contraste fuerte para leerse como invitación de verdad,
    no una tarjeta traslúcida más. */
+/* <dialog> encoge su caja al contenido (fit-content): sin este margen, el
+   sello de lacre (que sobresale hacia arriba con top:-1.1rem) queda flush
+   con el borde superior de esa caja y Chrome lo recorta ahí — se veía
+   "cortado" en vez de sobresalir. overflow:visible + un margen arriba
+   igual a lo que sobresale el sello le hace lugar. */
+#rsvpModal { overflow: visible; }
 .invitation-card {
   background: linear-gradient(155deg, var(--color-wine) 0%, #7a0842 100%);
   border-radius: 1.75rem;
   padding: .6rem;
+  margin-top: 1.25rem;
   box-shadow:
     0 40px 90px -25px rgba(0,0,0,.6),
     0 0 0 1px rgba(255,255,255,.08);
@@ -459,6 +473,7 @@ body.admin-dash { background: var(--color-dash); color: var(--color-dash-cream);
 .invitation-inner {
   background:
     radial-gradient(circle at 15% 0%, rgba(234,76,147,.06), transparent 45%),
+    var(--texture-linen),
     var(--color-cream);
   border: 1px solid rgba(158,10,85,.15);
 }
