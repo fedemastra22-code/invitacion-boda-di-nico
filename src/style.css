@@ -22,19 +22,18 @@
 }
 
 html { scroll-behavior: smooth; }
-/* Trama de lino (referencia de foto real del cliente): grano fino de fibra
-   (ruido SVG desaturado, muy liviano) + hilos horizontales/verticales finos
-   encima, para que se note el tejido y no sólo un grano parejo. Variable
-   reusada también en el papel del RSVP (.invitation-inner) más abajo, así
-   quedan con la misma tela, sin cambiar el color de fondo de ninguno de
-   los dos. Vive en TODO el fondo claro del sitio (el `body`), no sólo en
-   Itinerario — las secciones con fondo propio (parallax, admin oscuro) lo
-   tapan encima sin problema. */
+/* Textura de papel (no de tela): se sacó la trama de hilos cruzados —
+   quedaban como cuadraditos perfectos, demasiado "de tejido" prolijo. Ahora
+   es sólo ruido fractal con líneas irregulares (baseFrequency asimétrica:
+   un eje bien bajo, el otro alto, da vetas alargadas tipo fibra de papel en
+   vez de puntos parejos) y muy baja opacidad — apenas se nota, como el
+   grano de una hoja de carta. Variable reusada también en el papel del RSVP
+   (.invitation-inner) más abajo, mismo color de fondo en los dos lugares.
+   Vive en TODO el fondo claro del sitio (el `body`) — las secciones con
+   fondo propio (parallax, admin oscuro) la tapan encima sin problema. */
 :root {
   --texture-linen:
-    url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI5MCIgaGVpZ2h0PSI5MCI+PGZpbHRlciBpZD0ibiI+PGZlVHVyYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjEuMSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjxmZUNvbG9yTWF0cml4IHR5cGU9InNhdHVyYXRlIiB2YWx1ZXM9IjAiLz48L2ZpbHRlcj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWx0ZXI9InVybCgjbikiIG9wYWNpdHk9IjAuMTEiLz48L3N2Zz4="),
-    repeating-linear-gradient(0deg, rgba(43,35,32,.05) 0 1px, transparent 1px 4px),
-    repeating-linear-gradient(90deg, rgba(43,35,32,.05) 0 1px, transparent 1px 4px);
+    url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNjAiIGhlaWdodD0iMTYwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC4wMTUgMC45IiBudW1PY3RhdmVzPSIzIiBzZWVkPSI3IiBzdGl0Y2hUaWxlcz0ic3RpdGNoIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjxmZUNvbXBvbmVudFRyYW5zZmVyPjxmZUZ1bmNBIHR5cGU9ImxpbmVhciIgc2xvcGU9IjAuNTUiLz48L2ZlQ29tcG9uZW50VHJhbnNmZXI+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI24pIiBvcGFjaXR5PSIwLjEiLz48L3N2Zz4=");
 }
 body {
   background-color: var(--color-cream);
