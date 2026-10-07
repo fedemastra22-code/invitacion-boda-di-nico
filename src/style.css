@@ -22,7 +22,18 @@
 }
 
 html { scroll-behavior: smooth; }
-body { background: var(--color-cream); color: var(--color-ink); }
+/* Trama tipo lino (no diagonal — a diferencia de un twill, el lino se teje
+   derecho: hilos horizontales + verticales cruzados) en TODO el fondo claro
+   del sitio, no sólo en la sección Itinerario donde se probó primero. Las
+   secciones con su propio fondo (parallax de fotos, admin oscuro) lo tapan
+   encima sin problema. */
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(43,35,32,.05) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(43,35,32,.05) 0 1px, transparent 1px 3px);
+}
 /* El admin vive en <body class="admin-dash">. Va como regla propia (no una
    utilidad bg-dash de Tailwind) porque las utilidades corren dentro de
    @layer, y una regla normal como la de arriba le gana a cualquier cosa en
@@ -392,22 +403,10 @@ body.admin-dash { background: var(--color-dash); color: var(--color-dash-cream);
   text-shadow: 0 1px 3px rgba(0,0,0,.9), 0 4px 18px rgba(0,0,0,.65);
 }
 
-/* ---------- Itinerario: fondo con textura papel (sin tarjeta) ----------
+/* ---------- Itinerario: sin tarjeta ----------
    Se sacó el contenedor rectangular — la lista de horarios queda suelta
-   sobre el fondo de la sección. Trama diagonal tipo tela/lino (referencia
-   del cliente) en vez del ruido fractal anterior — mismo color de fondo
-   (--color-cream), sólo cambia el patrón de la textura. */
-.itinerario-bg {
-  position: relative;
-  background-color: var(--color-cream);
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(43,35,32,.055) 0px,
-    rgba(43,35,32,.055) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-}
+   sobre el fondo de la sección. La textura de lino ahora vive en el `body`
+   (ver arriba), compartida por todas las secciones de fondo claro. */
 .itinerario-icon { color: var(--color-ink); filter: drop-shadow(0 2px 2px rgba(43,35,32,.18)); }
 .itinerario-icon svg { width: 2.25rem; height: 2.25rem; }
 .itinerario-time {
