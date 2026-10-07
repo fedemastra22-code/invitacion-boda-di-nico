@@ -392,6 +392,47 @@ body.admin-dash { background: var(--color-dash); color: var(--color-dash-cream);
   text-shadow: 0 1px 3px rgba(0,0,0,.9), 0 4px 18px rgba(0,0,0,.65);
 }
 
+/* ---------- Itinerario: tarjeta con textura papel ----------
+   Mismo espíritu "impreso" que .invitation-inner (ver abajo), pero acá el
+   grano es una textura real (SVG de ruido fractal en base64, muy liviana)
+   en vez de un degradé liso — se pidió que el fondo claro se sienta
+   "tarjeta", no una card web plana. */
+.itinerario-card {
+  position: relative;
+  background-color: var(--color-cream);
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC44NSIgbnVtT2N0YXZlcz0iMiIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==");
+  border: 1px solid rgba(158,10,85,.12);
+  box-shadow:
+    0 24px 60px -24px rgba(43,35,32,.3),
+    inset 0 1px 0 rgba(255,255,255,.6);
+}
+.itinerario-icon { color: var(--color-ink); filter: drop-shadow(0 2px 2px rgba(43,35,32,.18)); }
+.itinerario-icon svg { width: 2.25rem; height: 2.25rem; }
+.itinerario-time {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: .03em;
+  color: var(--color-wine);
+}
+.itinerario-dot {
+  width: .85rem; height: .85rem;
+  border-radius: 999px;
+  background: var(--color-dash-pink, #EA4C93);
+  box-shadow: 0 0 0 4px var(--color-cream), 0 2px 4px rgba(0,0,0,.25);
+  margin-top: .3rem;
+  flex-shrink: 0;
+}
+.itinerario-bar { flex: 1; width: 1px; background: rgba(158,10,85,.22); margin-top: .35rem; }
+.itinerario-title {
+  color: var(--color-ink);
+  text-shadow: 0 1px 0 rgba(255,255,255,.65), 0 2px 5px rgba(43,35,32,.12);
+}
+.itinerario-desc {
+  color: rgba(43,35,32,.68);
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
 /* ---------- Carta / papel del RSVP ---------- */
 .paper {
   background:

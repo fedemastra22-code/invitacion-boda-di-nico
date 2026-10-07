@@ -275,50 +275,131 @@
         <span class="h-px w-16 bg-[#EA4C93]/40"></span>
       </div>
 
-      <ol class="reveal reveal-delay-3 mt-14 text-left">
-        <li class="relative pl-14 pb-10 border-l-2 border-[#EA4C93]/25">
-          <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#EA4C93] ring-4 ring-[#FBF4E9]"></span>
-          <span class="absolute left-7 -top-1 text-2xl">🥂</span>
-          <p class="text-[#EA4C93] text-xs tracking-[0.25em] font-light">17.30</p>
-          <h3 class="font-display text-2xl font-light mt-1">Recepción</h3>
-          <p class="text-ink/55 text-sm mt-1 leading-relaxed">Llegá puntual, que el primer brindis no espera.</p>
-        </li>
-        <li class="relative pl-14 pb-10 border-l-2 border-[#EA4C93]/25">
-          <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#EA4C93] ring-4 ring-[#FBF4E9]"></span>
-          <span class="absolute left-7 -top-1 text-2xl">💐</span>
-          <p class="text-[#EA4C93] text-xs tracking-[0.25em] font-light">18.20</p>
-          <h3 class="font-display text-2xl font-light mt-1">Llega la novia</h3>
-          <p class="text-ink/55 text-sm mt-1 leading-relaxed">Pañuelos listos (el novio ya está nervioso).</p>
-        </li>
-        <li class="relative pl-14 pb-10 border-l-2 border-[#EA4C93]/25">
-          <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#EA4C93] ring-4 ring-[#FBF4E9]"></span>
-          <span class="absolute left-7 -top-1 text-2xl">💍</span>
-          <p class="text-[#EA4C93] text-xs tracking-[0.25em] font-light">18.30</p>
-          <h3 class="font-display text-2xl font-light mt-1">Civil</h3>
-          <p class="text-ink/55 text-sm mt-1 leading-relaxed">El momento del "sí, quiero"… sin vuelta atrás.</p>
-        </li>
-        <li class="relative pl-14 pb-10 border-l-2 border-[#EA4C93]/25">
-          <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#EA4C93] ring-4 ring-[#FBF4E9]"></span>
-          <span class="absolute left-7 -top-1 text-2xl">🍸</span>
-          <p class="text-[#EA4C93] text-xs tracking-[0.25em] font-light">19.15</p>
-          <h3 class="font-display text-2xl font-light mt-1">Cóctel y cena</h3>
-          <p class="text-ink/55 text-sm mt-1 leading-relaxed">A comer y brindar como si no hubiera lunes.</p>
-        </li>
-        <li class="relative pl-14 pb-10 border-l-2 border-[#EA4C93]/25">
-          <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#EA4C93] ring-4 ring-[#FBF4E9]"></span>
-          <span class="absolute left-7 -top-1 text-2xl">🪩</span>
-          <p class="text-[#EA4C93] text-xs tracking-[0.25em] font-light">21.30</p>
-          <h3 class="font-display text-2xl font-light mt-1">Previa del baile</h3>
-          <p class="text-ink/55 text-sm mt-1 leading-relaxed">Aflojá la corbata y bajá de los tacos.</p>
-        </li>
-        <li class="relative pl-14">
-          <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-[#EA4C93] ring-4 ring-[#FBF4E9]"></span>
-          <span class="absolute left-7 -top-1 text-2xl">🎧</span>
-          <p class="text-[#EA4C93] text-xs tracking-[0.25em] font-light">22.00</p>
-          <h3 class="font-display text-2xl font-light mt-1">¡A bailar!</h3>
-          <p class="text-ink/55 text-sm mt-1 leading-relaxed">La pista es de todos, prohibido quedarse sentado.</p>
-        </li>
-      </ol>
+      <!-- Tarjeta con textura papel (.itinerario-card en style.css) — mismo
+           espíritu "físico" que la carta del RSVP (.invitation-inner), para
+           que el itinerario se sienta impreso, no una web más. -->
+      <div class="reveal reveal-delay-3 mt-14 itinerario-card rounded-[2rem] p-7 sm:p-10 text-left">
+        <ol>
+          <li class="itinerario-item flex gap-4 pb-9">
+            <div class="flex flex-col items-center w-16 shrink-0 text-center">
+              <span class="itinerario-icon">
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 6h5l-1 11c0 2-1 3-1.5 3s-1.5-1-1.5-3L12 6Z"/>
+                  <path d="M14.5 20v9M10 29h9"/>
+                  <path d="M23 9h5l-1 11c0 2-1 3-1.5 3s-1.5-1-1.5-3L23 9Z"/>
+                  <path d="M25.5 23v6M21 29h9"/>
+                  <path d="M8 4l1.5 1.5M31 7l-1.5 1.5M18 3v2" stroke="#EA4C93"/>
+                </svg>
+              </span>
+              <span class="itinerario-time mt-2">17.30</span>
+            </div>
+            <div class="itinerario-line flex flex-col items-center shrink-0">
+              <span class="itinerario-dot"></span>
+              <span class="itinerario-bar"></span>
+            </div>
+            <div class="pt-1">
+              <h3 class="itinerario-title font-display text-2xl font-light">Recepción</h3>
+              <p class="itinerario-desc text-sm mt-1 leading-relaxed">Llegá puntual, que el primer brindis no espera.</p>
+            </div>
+          </li>
+          <li class="itinerario-item flex gap-4 pb-9">
+            <div class="flex flex-col items-center w-16 shrink-0 text-center">
+              <span class="itinerario-icon">
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="14" cy="10" r="3"/><circle cx="21" cy="8" r="3"/><circle cx="26" cy="13" r="3"/><circle cx="18" cy="15" r="3"/>
+                  <path d="M19 17 L15 33 M19 17 L23 33"/>
+                  <path d="M12 26c3-3 11-3 14 0" stroke="#EA4C93"/>
+                </svg>
+              </span>
+              <span class="itinerario-time mt-2">18.20</span>
+            </div>
+            <div class="itinerario-line flex flex-col items-center shrink-0">
+              <span class="itinerario-dot"></span>
+              <span class="itinerario-bar"></span>
+            </div>
+            <div class="pt-1">
+              <h3 class="itinerario-title font-display text-2xl font-light">Llega la novia</h3>
+              <p class="itinerario-desc text-sm mt-1 leading-relaxed">Pañuelos listos (el novio ya está nervioso).</p>
+            </div>
+          </li>
+          <li class="itinerario-item flex gap-4 pb-9">
+            <div class="flex flex-col items-center w-16 shrink-0 text-center">
+              <span class="itinerario-icon">
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="15" cy="24" r="8"/><circle cx="25" cy="24" r="8"/>
+                  <path d="M20 10c-1.5-2-5-1-4 2 1 2.5 4 3.5 4 3.5s3-1 4-3.5c1-3-2.5-4-4-2Z" fill="#EA4C93" stroke="#EA4C93"/>
+                </svg>
+              </span>
+              <span class="itinerario-time mt-2">18.30</span>
+            </div>
+            <div class="itinerario-line flex flex-col items-center shrink-0">
+              <span class="itinerario-dot"></span>
+              <span class="itinerario-bar"></span>
+            </div>
+            <div class="pt-1">
+              <h3 class="itinerario-title font-display text-2xl font-light">Civil</h3>
+              <p class="itinerario-desc text-sm mt-1 leading-relaxed">El momento del "sí, quiero"… sin vuelta atrás.</p>
+            </div>
+          </li>
+          <li class="itinerario-item flex gap-4 pb-9">
+            <div class="flex flex-col items-center w-16 shrink-0 text-center">
+              <span class="itinerario-icon">
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 8h24L20 22Z"/><path d="M20 22v11M13 33h14M20 8l4 7"/>
+                  <circle cx="26" cy="7" r="2" fill="#EA4C93" stroke="#EA4C93"/><path d="M24 9l2-2"/>
+                </svg>
+              </span>
+              <span class="itinerario-time mt-2">19.15</span>
+            </div>
+            <div class="itinerario-line flex flex-col items-center shrink-0">
+              <span class="itinerario-dot"></span>
+              <span class="itinerario-bar"></span>
+            </div>
+            <div class="pt-1">
+              <h3 class="itinerario-title font-display text-2xl font-light">Cóctel y cena</h3>
+              <p class="itinerario-desc text-sm mt-1 leading-relaxed">A comer y brindar como si no hubiera lunes.</p>
+            </div>
+          </li>
+          <li class="itinerario-item flex gap-4 pb-9">
+            <div class="flex flex-col items-center w-16 shrink-0 text-center">
+              <span class="itinerario-icon">
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="20" cy="20" r="11"/><path d="M9 20h22M20 9v22M12 12l16 16M28 12 12 28"/>
+                  <path d="M6 6l2 2M34 6l-2 2M6 34l2-2M34 34l-2-2" stroke="#EA4C93"/>
+                </svg>
+              </span>
+              <span class="itinerario-time mt-2">21.30</span>
+            </div>
+            <div class="itinerario-line flex flex-col items-center shrink-0">
+              <span class="itinerario-dot"></span>
+              <span class="itinerario-bar"></span>
+            </div>
+            <div class="pt-1">
+              <h3 class="itinerario-title font-display text-2xl font-light">Previa del baile</h3>
+              <p class="itinerario-desc text-sm mt-1 leading-relaxed">Aflojá la corbata y bajá de los tacos.</p>
+            </div>
+          </li>
+          <li class="itinerario-item flex gap-4">
+            <div class="flex flex-col items-center w-16 shrink-0 text-center">
+              <span class="itinerario-icon">
+                <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9 19v-2a11 11 0 0 1 22 0v2"/>
+                  <rect x="6" y="18" width="6" height="9" rx="2.5"/><rect x="28" y="18" width="6" height="9" rx="2.5"/>
+                  <path d="M6 10l-2-2M34 10l2-2M20 4v3" stroke="#EA4C93"/>
+                </svg>
+              </span>
+              <span class="itinerario-time mt-2">22.00</span>
+            </div>
+            <div class="itinerario-line flex flex-col items-center shrink-0">
+              <span class="itinerario-dot"></span>
+            </div>
+            <div class="pt-1">
+              <h3 class="itinerario-title font-display text-2xl font-light">¡A bailar!</h3>
+              <p class="itinerario-desc text-sm mt-1 leading-relaxed">La pista es de todos, prohibido quedarse sentado.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
     </div>
   </section>
 
